@@ -1,0 +1,74 @@
+var a=[[3,2,1],
+[1,2,3]];
+var b;
+b=transpose(a);
+var c;
+c=adda(a,a);
+var d;
+d=times(a,b);
+
+
+console.log("a=",a);
+console.log("b=",b);
+console.log("c=",c);
+console.log("d=",d);
+
+function transpose(a)
+{
+	var b=new Array(a[0].length);
+	var i,j;
+	for(j=0;j<a[0].length;j++) 
+	{
+		b[j]=[];
+		for(i=0;i<a.length;i++) 
+		{
+			b[j][i]=a[i][j];
+		}
+	}
+	return b;
+}
+
+function adda(a,b)
+{
+	var c=new Array(a.length);
+	var i,j;
+	for(i=0;i<2;i++)
+	{
+	 c[i]=[];
+		for(j=0;j<3;j++)
+		{
+			c[i][j]=a[i][j]+b[i][j];
+		}
+	}
+		return c;
+}
+
+function times (a,b) 
+{
+	var d=[];
+/*
+    Matrix M(A.r, B.c);
+    for (int i=0; i<A.r; ++i)
+        for (int j=0; j<B.c; ++j)
+            for (int k=0; k<A.c; ++k)
+                M(i,j) += A(i,k) * B(k,j);
+    return M;
+
+*/
+	for(var i=0;i<a.length;i++)
+	{
+		d[i] = [];
+		for(var j=0;j<b[0].length;j++)
+		{
+			d[i][j]=0;
+			
+			for(var k=0;k<a[i].length;k++)
+			{
+				d[i][j] += a[i][k]*b[k][j];
+			}
+			
+		}
+	}
+
+    return d;
+}
