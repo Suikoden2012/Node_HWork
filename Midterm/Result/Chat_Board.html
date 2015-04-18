@@ -56,7 +56,7 @@ height:90%;
 $(document).ready(function(){
 
 //設定IP
-var ip='127.0.0.1',
+var ip='192.168.0.4',
 	port='3000';
 var socket = io.connect('http://'+ip+":"+port);
 
@@ -76,9 +76,7 @@ window.addEventListener('load',function() {
 	document.getElementById('sendtext').addEventListener('click',function() {
 		//名字與內文
 		var text = document.getElementById('data').value; 
-		var nname = document.getElementById('nickname').value; 
-		//字體顏色
-		
+		var nname = document.getElementById('nickname').value;	
 		socket.emit('sendchat', nname+"："+text);
 	}, false); 
 }, false);
@@ -87,7 +85,7 @@ window.addEventListener('load',function() {
 //接收別人畫布上動作
 socket.on('show',function(data){
 	//筆尖大小
-	$("input[name='size']").val(data.size);
+	$("#size").val(data.size);
 	ctx.lineWidth = data.size;
 	//筆顏色
 	$('#paint-color').val(data.color);
@@ -98,6 +96,7 @@ socket.on('show',function(data){
 	ctx.lineTo(data.new_x,data.new_y);
 	ctx.closePath();
 	ctx.stroke();
+	
 });
 /*繪圖相關設定*/
 //宣告canvas元素c
@@ -148,10 +147,10 @@ $(document).on('mouseup','#board',function(e){
 	isdrawing=false;
 });
 //設定筆尖大小
-$(document).on('change',"input[name='size']",function(e){
+$(document).on('change',"#size",function(e){
 	ctx.lineWidth=$(this).val();
 });
-//設定筆尖大小顏色
+//設定筆尖顏色
 $(document).on('change','#paint-color',function(e){
 	ctx.strokeStyle=$(this).val();
 });
@@ -165,13 +164,14 @@ function drawLine(x,y,new_x,new_y)
 	 ctx.closePath();
 	 ctx.stroke();
 	 
+	 
 	 //結果透過nodeJS傳給使用者
 	 var obj = new Object;
 	 obj.x=x;
 	 obj.y=y;
 	 obj.new_x=new_x;
 	 obj.new_y=new_y;
-	 obj.size = $("input[name='size']").val();
+	 obj.size = $("#size").val();
 	 obj.color = $('#paint-color').val();
 	 socket.emit('draw',obj);
 	}
@@ -199,15 +199,18 @@ function drawLine(x,y,new_x,new_y)
 		<div id="color">
 	畫筆顏色<input id="paint-color" type="color" />
 	<br />
-	聊天字色<input id="chat-color" type="color" />
 	</div>
 	<div id="sizecol">
 	 筆頭大小:
-	  <input type="radio" name="size" value="1" checked/>1
-      <input type="radio" name="size" value="3"/>2
-	  <input type="radio" name="size" value="5"/>3
-	  <input type="radio" name="size" value="7"/>4
-	  <input type="radio" name="size" value="9"/>5
+                                <select id="size">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                </select> 
 	</div>
 </div>
 

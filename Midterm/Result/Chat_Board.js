@@ -1,5 +1,5 @@
 var server = require('http').createServer(handler),
-	ip 	   = "127.0.0.1",
+//	ip 	   = "127.0.0.1",
 	port   = '3000',
 	fs 	   = require('fs')
 	si     = require('socket.io');
@@ -21,7 +21,7 @@ function handler(request,response){
 }
 
 //啟動訊息
-server.listen(port,ip,function(){
+server.listen(port,function(){
 	console.log("Server Start.");
 });
 
