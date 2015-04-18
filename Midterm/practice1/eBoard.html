@@ -53,8 +53,10 @@ $(document).ready(function() {
         /* socket.io 相關設定 */ 
         
         //連線位置與初始化 
-        var socket = io.connect('http://127.0.0.1:8080/'); 
-        /*
+		var ip='127.0.0.1',
+			port='8080';
+        var socket = io.connect('http://'+ip+":"+port); 
+        
         //連線作業 
         socket.on('connect', function() { 
                 //宣告物件，放置訊息 
@@ -64,7 +66,7 @@ $(document).ready(function() {
                 //將輸入名稱傳到後端 node.js server 來通知其他人您已上線的訊息 
                 socket.emit('login', obj); 
         }); 
-        */
+        
         //上線通知 
         socket.on('msg', function(data){ 
                 $('#member_msg').append('<div>' + data.msg + '</div>'); 
@@ -78,10 +80,10 @@ $(document).ready(function() {
                 
                 //繪圖 
                 ctx.beginPath();  
-        ctx.moveTo(data.x, data.y);  
-        ctx.lineTo(data.new_x, data.new_y);  
-        ctx.closePath();  
-        ctx.stroke(); 
+				ctx.moveTo(data.x, data.y);  
+				ctx.lineTo(data.new_x, data.new_y);  
+				ctx.closePath();  
+				ctx.stroke(); 
         }); 
         
         
@@ -104,7 +106,7 @@ $(document).ready(function() {
         //繪圖物件初始設定 
     ctx.lineCap = 'round'; 
     ctx.lineJoin = 'round'; 
-    ctx.strokeStyle = '#000000'; 
+    ctx.strokeStyle = '#aabbcc'; 
     ctx.lineWidth = 1; 
     
     //座標相關變數 
@@ -125,15 +127,15 @@ $(document).ready(function() {
     }); 
     
     //滑鼠在畫布上按下左右時，移動的情況 
-    $(document).on('mousemove', '#whiteboard', function(e){ 
-            e.preventDefault(); 
+    $(document).on('mousemove', '#whiteboard', function(data){ 
+            data.preventDefault(); 
             
             //是否開啟畫圖機制 
             if( drawing ) 
             { 
                     //計算移動後的新座標，再進行畫圖作業 
-                new_x = e.pageX - offset.left; 
-                new_y = e.pageY - offset.top; 
+                new_x = data.pageX - offset.left; 
+                new_y = data.pageY - offset.top; 
                 drawLine(x, y, new_x, new_y); 
                 x = new_x; 
                 y = new_y; 
